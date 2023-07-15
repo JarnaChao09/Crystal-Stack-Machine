@@ -1,11 +1,17 @@
 module StackMachine
-  macro define_unary_opcode(opcode_name, field_name, field_type)
-    class {{ opcode_name }}
-      getter {{ field_name }} : {{ field_type }}
-
+  private macro define_unary_opcode(opcode_name, field_name, field_type)
+    # Struct for `{{ opcode_name }}` opcode
+    struct {{ opcode_name }}
       def initialize(@{{ field_name }} : {{ field_type }})
       end
 
+      # Pass in a block to perform specified operation with the underlying {{ field_name }}
+      #
+      # ```
+      # {{ opcode_name }}.new.call do | {{ field_name }} |
+      #   do_something_with {{ field_name }}
+      # end
+      # ```
       def call(& : {{ field_type }} -> ) : Void
         yield @{{ field_name }}
       end

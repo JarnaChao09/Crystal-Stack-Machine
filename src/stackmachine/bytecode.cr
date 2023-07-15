@@ -1,3 +1,4 @@
+require "./operations"
 require "./opcode"
 
 module StackMachine

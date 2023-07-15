@@ -1,14 +1,16 @@
+require "./bytecode"
+
 module StackMachine
   # Helper class to build stack vm bytecode
   # Class is only available through `StackMachine.build` method
   private class Builder
     # Create a builder with an empty set of instructions
     def initialize
-      @instructions = [] of Int32 | Operation
+      @instructions = [] of Bytecode
     end
 
     # Return the built instructions
-    def build : Array(Int32 | Operation)
+    def build : Array(Bytecode)
       @instructions
     end
 
@@ -36,6 +38,16 @@ module StackMachine
     def op_div
       @instructions << Operation::Div
     end
+
+    # Opcode helper method for adding a load instruction
+    def op_load(n : Int32)
+      @instructions << Load.new n
+    end
+
+    # Opcode helper method for adding a store instruction
+    def op_store(n : Int32)
+      @instructions << Store.new n
+    end
   end
 
   # Method to build the stack vm bytecode
@@ -56,7 +68,7 @@ module StackMachine
   #
   # StackMachine.execute bytecode # => 1
   # ```
-  def self.build(&) : Array(Int32 | Operation)
+  def self.build(&) : Array(Bytecode)
     builder = Builder.new
     with builder yield
     builder.build
