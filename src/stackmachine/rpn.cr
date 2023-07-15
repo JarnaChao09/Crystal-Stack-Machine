@@ -1,4 +1,5 @@
 require "./operations"
+require "./bytecode"
 
 module StackMachine
   # Given an input array following the Reverse Polish Notation format, this method will execute the RPN expression.
@@ -9,7 +10,7 @@ module StackMachine
   # ```
   #
   # TODO: create new exceptions for when there are an invalid number of operands on stack and when stack has too many values at the end
-  def self.execute(code : Array(Int32 | Operation)) : Int32
+  def self.execute(code : Array(Bytecode)) : Int32
     stack = [] of Int32
     code.each_with_index do |x, i|
       case x
