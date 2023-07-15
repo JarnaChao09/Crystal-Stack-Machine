@@ -74,4 +74,42 @@ describe StackMachine do
       ]
     end
   end
+
+  it "Testing op_num builder method" do
+    StackMachine.build {
+      op_num 100
+    }.should eq([100] of Int32 | StackMachine::Operation)
+  end
+
+  it "Testing op_add builder method" do
+    StackMachine.build {
+      op_num 100
+      op_num 200
+      op_add
+    }.should eq([100, 200, StackMachine::Operation::Add] of Int32 | StackMachine::Operation)
+  end
+
+  it "Testing op_sub builder method" do
+    StackMachine.build {
+      op_num 200
+      op_num 100
+      op_sub
+    }.should eq([200, 100, StackMachine::Operation::Sub] of Int32 | StackMachine::Operation)
+  end
+
+  it "Testing op_mul builder method" do
+    StackMachine.build {
+      op_num 3
+      op_num 4
+      op_mul
+    }.should eq([3, 4, StackMachine::Operation::Mul] of Int32 | StackMachine::Operation)
+  end
+
+  it "Testing op_div builder method" do
+    StackMachine.build {
+      op_num 4
+      op_num 2
+      op_div
+    }.should eq([4, 2, StackMachine::Operation::Div] of Int32 | StackMachine::Operation)
+  end
 end
