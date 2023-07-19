@@ -22,7 +22,9 @@ module StackMachine
   def self.execute(code : Array(Bytecode)) : Int32
     stack = [] of Int32
     locals = LocalArray.new { 0 }
-    code.each_with_index do |x, i|
+    i = 0
+    while i < code.size
+      x = code[i]
       case x
       in Operation
         begin
@@ -42,6 +44,7 @@ module StackMachine
           locals[locals_index] = stack.pop
         end
       end
+      i += 1
     end
     raise Exception.new "Too many or not enough values on the stack" unless stack.size == 1
     stack.pop
