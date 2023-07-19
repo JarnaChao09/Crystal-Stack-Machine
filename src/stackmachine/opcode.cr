@@ -20,4 +20,9 @@ module StackMachine
 
   define_unary_opcode Load, index, Int32
   define_unary_opcode Store, index, Int32
+  define_unary_opcode Jump, index, Int32
+  define_unary_opcode JumpTrue, index, Int32
+  define_unary_opcode JumpFalse, index, Int32
+
+  alias OpCode = Load | Store | Jump | JumpTrue | JumpFalse
 end

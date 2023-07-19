@@ -39,6 +39,36 @@ module StackMachine
       @instructions << Operation::Div
     end
 
+    # Opcode helper method for adding a lt instruction
+    def op_lt
+      @instructions << Comparison::LT
+    end
+
+    # Opcode helper method for adding a le instruction
+    def op_le
+      @instructions << Comparison::LE
+    end
+
+    # Opcode helper method for adding a gt instruction
+    def op_gt
+      @instructions << Comparison::GT
+    end
+
+    # Opcode helper method for adding a ge instruction
+    def op_ge
+      @instructions << Comparison::GE
+    end
+
+    # Opcode helper method for adding a eq instruction
+    def op_eq
+      @instructions << Comparison::EQ
+    end
+
+    # Opcode helper method for adding a ne instruction
+    def op_ne
+      @instructions << Comparison::NE
+    end
+
     # Opcode helper method for adding a load instruction
     def op_load(n : Int32)
       @instructions << Load.new n
@@ -47,6 +77,21 @@ module StackMachine
     # Opcode helper method for adding a store instruction
     def op_store(n : Int32)
       @instructions << Store.new n
+    end
+
+    # Opcode helper method for adding a jump instruction
+    def op_jump(i : Int32)
+      @instructions << Jump.new i - 1
+    end
+
+    # Opcode helper method for adding a jmpt instruction
+    def op_jmpt(i : Int32)
+      @instructions << JumpTrue.new i - 1
+    end
+
+    # Opcode helper method for adding a jmpf instruction
+    def op_jmpf(i : Int32)
+      @instructions << JumpFalse.new i - 1
     end
   end
 
