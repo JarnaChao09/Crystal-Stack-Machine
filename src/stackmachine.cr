@@ -11,9 +11,7 @@ def fib(n : Int32) : Int32
   a, b = 0, 1
 
   (n - 1).times do 
-    c = a + b
-    a = b
-    b = c
+    a, b = b, a + b
   end
 
   return b
