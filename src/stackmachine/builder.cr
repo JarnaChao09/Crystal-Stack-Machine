@@ -84,14 +84,38 @@ module StackMachine
       @instructions << Jump.new i - 1
     end
 
+    def op_jump_forward(d : Int32)
+      @instructions << JumpForward.new d
+    end
+
+    def op_jump_backward(d : Int32)
+      @instructions << JumpBackward.new d
+    end
+
     # Opcode helper method for adding a jmpt instruction
     def op_jmpt(i : Int32)
       @instructions << JumpTrue.new i - 1
     end
 
+    def op_jmpt_forward(d : Int32)
+      @instructions << JumpTrueForward.new d
+    end
+
+    def op_jmpt_backward(d : Int32)
+      @instructions << JumpTrueBackward.new d
+    end
+
     # Opcode helper method for adding a jmpf instruction
     def op_jmpf(i : Int32)
       @instructions << JumpFalse.new i - 1
+    end
+
+    def op_jmpf_forward(d : Int32)
+      @instructions << JumpFalseForward.new d
+    end
+
+    def op_jmpf_backward(d : Int32)
+      @instructions << JumpFalseBackward.new d
     end
   end
 

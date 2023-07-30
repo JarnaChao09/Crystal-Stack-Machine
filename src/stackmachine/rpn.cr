@@ -66,12 +66,42 @@ module StackMachine
           x.call do |jump_index|
             i = jump_index - 1
           end
+        in JumpForward
+          x.call do |delta|
+            i += delta - 1
+          end
+        in JumpBackward
+          x.call do |delta|
+            i -= delta + 1
+          end
         in JumpTrue
           x.call do |jump_index|
             top = stack.pop
             case top
             when true
               i = jump_index - 1
+            when false
+            else
+              raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
+            end
+          end
+        in JumpTrueForward
+          x.call do |delta|
+            top = stack.pop
+            case top
+            when true
+              i += delta - 1
+            when false
+            else
+              raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
+            end
+          end
+        in JumpTrueBackward
+          x.call do |delta|
+            top = stack.pop
+            case top
+            when true
+              i -= delta + 1
             when false
             else
               raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
@@ -84,6 +114,28 @@ module StackMachine
             when true
             when false
               i = jump_index - 1
+            else
+              raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
+            end
+          end
+        in JumpFalseForward
+          x.call do |delta|
+            top = stack.pop
+            case top
+            when true
+            when false
+              i += delta - 1
+            else
+              raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
+            end
+          end
+        in JumpFalseBackward
+          x.call do |delta|
+            top = stack.pop
+            case top
+            when true
+            when false
+              i -= delta + 1
             else
               raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
             end
