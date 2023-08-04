@@ -3,5 +3,5 @@ require "./comparisons"
 require "./opcode"
 
 module StackMachine
-  alias Bytecode = Int32 | OpCode | Operation | Comparison
+  alias Bytecode = Int32 | Float64 | OpCode | Operation | Comparison
 end

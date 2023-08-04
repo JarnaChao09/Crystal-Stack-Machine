@@ -7,7 +7,7 @@ module StackMachine
     EQ
     NE
 
-    def call(l : Int32, r : Int32) : Bool
+    def call(l : Float64, r : Float64) : Bool
       case self
       in .lt? then l < r
       in .le? then l <= r

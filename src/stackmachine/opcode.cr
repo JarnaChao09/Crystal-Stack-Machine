@@ -33,5 +33,15 @@ module StackMachine
   define_unary_opcode JumpFalseForward, delta, Int32
   define_unary_opcode JumpFalseBackward, delta, Int32
 
-  alias OpCode = Load | Store | Jump | JumpForward | JumpBackward | JumpTrue | JumpTrueForward | JumpTrueBackward | JumpFalse | JumpFalseForward | JumpFalseBackward
+  alias OpCode = Load |
+                 Store |
+                 Jump |
+                 JumpForward |
+                 JumpBackward |
+                 JumpTrue |
+                 JumpTrueForward |
+                 JumpTrueBackward |
+                 JumpFalse |
+                 JumpFalseForward |
+                 JumpFalseBackward
 end

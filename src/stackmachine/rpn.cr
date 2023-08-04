@@ -3,7 +3,7 @@ require "./bytecode"
 module StackMachine
   # Type alias for use in locals.
   # Current max amount of locals is `8`.
-  alias LocalArray = (Int32 | Bool)[8]
+  alias LocalArray = (Float64 | Bool)[8]
 
   # Given an input array following the Reverse Polish Notation format, this method will execute the RPN expression.
   #
@@ -19,9 +19,9 @@ module StackMachine
   # ```
   #
   # TODO: create new exceptions for when there are an invalid number of operands on stack and when stack has too many values at the end
-  def self.execute(code : Array(Bytecode)) : Int32 | Bool
-    stack = [] of Int32 | Bool
-    locals = LocalArray.new { 0 }
+  def self.execute(code : Array(Bytecode)) : Float64 | Bool
+    stack = [] of Float64 | Bool
+    locals = LocalArray.new { 0.0 }
     i = 0
     while i < code.size
       x = code[i]
@@ -30,7 +30,7 @@ module StackMachine
         begin
           a, b = stack.pop 2
           case {a, b}
-          in {Int32, Int32}
+          in {Float64, Float64}
             stack.push x.call a, b
           in {_, _}
             raise Exception.new "Invalid types for Operation #{x}, expected Int32, Int32"
@@ -42,7 +42,7 @@ module StackMachine
         begin
           a, b = stack.pop 2
           case {a, b}
-          in {Int32, Int32}
+          in {Float64, Float64}
             stack.push x.call a, b
           in {_, _}
             raise Exception.new "Invalid types for Operation #{x}, expected Int32, Int32"
@@ -51,6 +51,8 @@ module StackMachine
           raise Exception.new "Invalid Number of Operands on the stack for Comparison #{x}"
         end
       in Int32
+        stack.push x.to_f
+      in Float64
         stack.push x
       in OpCode
         case x
