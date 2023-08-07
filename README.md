@@ -1,6 +1,12 @@
-# stackmachine
+# StackMachine
 
-TODO: Write a description here
+A stack and register virtual machine written in Crystal.
+
+Purposes of this project:
+- Learn Crystal
+- Gain a better understanding of ISA design
+
+> The VM architecture was loosely inspired by how the JVM works
 
 ## Installation
 
