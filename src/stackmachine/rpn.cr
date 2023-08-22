@@ -20,9 +20,19 @@ module StackMachine
   #
   # TODO: create new exceptions for when there are an invalid number of operands on stack and when stack has too many values at the end
   def self.execute(code : Array(Bytecode)) : Float64 | Bool
+    labels = {} of Symbol => Int32
     stack = [] of Float64 | Bool
     locals = LocalArray.new { 0.0 }
-    i = 0
+
+    code.each_with_index do |x, i|
+      if x.is_a? Label
+        x.call do |identifier|
+          labels[identifier] = i
+        end
+      end
+    end
+
+    i = labels[:main]
     while i < code.size
       x = code[i]
       case x
@@ -64,9 +74,16 @@ module StackMachine
           x.call do |locals_index|
             locals[locals_index] = stack.pop
           end
+        in Label
+          # noop
         in Jump
           x.call do |jump_index|
-            i = jump_index - 1
+            case jump_index
+            in Int32
+              i = jump_index - 2
+            in Symbol
+              i = labels[jump_index]
+            end
           end
         in JumpForward
           x.call do |delta|
@@ -81,7 +98,12 @@ module StackMachine
             top = stack.pop
             case top
             when true
-              i = jump_index - 1
+              case jump_index
+              in Int32
+                i = jump_index - 2
+              in Symbol
+                i = labels[jump_index]
+              end
             when false
             else
               raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
@@ -115,7 +137,12 @@ module StackMachine
             case top
             when true
             when false
-              i = jump_index - 1
+              case jump_index
+              in Int32
+                i = jump_index - 2
+              in Symbol
+                i = labels[jump_index]
+              end
             else
               raise Exception.new "Expected top of stack to be Bool, found #{typeof(top)}"
             end
@@ -146,7 +173,9 @@ module StackMachine
       end
       i += 1
     end
+
     raise Exception.new "Too many or not enough values on the stack" unless stack.size == 1
+
     stack.pop
   end
 end

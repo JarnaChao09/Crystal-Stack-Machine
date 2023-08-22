@@ -3,7 +3,7 @@ require "./bytecode"
 module StackMachine
   # Helper class to build stack vm bytecode
   # Class is only available through `StackMachine.build` method
-  private class Builder
+  class Builder
     # Create a builder with an empty set of instructions
     def initialize
       @instructions = [] of Bytecode
@@ -67,55 +67,6 @@ module StackMachine
     # Opcode helper method for adding a ne instruction
     def op_ne
       @instructions << Comparison::NE
-    end
-
-    # Opcode helper method for adding a load instruction
-    def op_load(n : Int32)
-      @instructions << Load.new n
-    end
-
-    # Opcode helper method for adding a store instruction
-    def op_store(n : Int32)
-      @instructions << Store.new n
-    end
-
-    # Opcode helper method for adding a jump instruction
-    def op_jump(i : Int32)
-      @instructions << Jump.new i - 1
-    end
-
-    def op_jump_forward(d : Int32)
-      @instructions << JumpForward.new d
-    end
-
-    def op_jump_backward(d : Int32)
-      @instructions << JumpBackward.new d
-    end
-
-    # Opcode helper method for adding a jmpt instruction
-    def op_jmpt(i : Int32)
-      @instructions << JumpTrue.new i - 1
-    end
-
-    def op_jmpt_forward(d : Int32)
-      @instructions << JumpTrueForward.new d
-    end
-
-    def op_jmpt_backward(d : Int32)
-      @instructions << JumpTrueBackward.new d
-    end
-
-    # Opcode helper method for adding a jmpf instruction
-    def op_jmpf(i : Int32)
-      @instructions << JumpFalse.new i - 1
-    end
-
-    def op_jmpf_forward(d : Int32)
-      @instructions << JumpFalseForward.new d
-    end
-
-    def op_jmpf_backward(d : Int32)
-      @instructions << JumpFalseBackward.new d
     end
   end
 
